@@ -66,6 +66,14 @@
     <Compile Include="..\..\SharedClasses\ThreadingInterop.cs">
       <Link>ThreadingInterop.cs</Link>
     </Compile>
+    <Compile Include="..\..\SharedClasses\UserMessageBox.cs">
+      <Link>UserMessageBox.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\..\SharedClasses\UserMessageBox.designer.cs">
+      <Link>UserMessageBox.designer.cs</Link>
+      <DependentUpon>UserMessageBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="..\..\SharedClasses\UserMessages.cs">
       <Link>UserMessages.cs</Link>
     </Compile>
@@ -83,6 +91,10 @@
     <EmbeddedResource Include="..\..\SharedClasses\InputBox.resx">
       <Link>InputBox.resx</Link>
       <DependentUpon>InputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\SharedClasses\UserMessageBox.resx">
+      <Link>UserMessageBox.resx</Link>
+      <DependentUpon>UserMessageBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
