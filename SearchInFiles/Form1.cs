@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace SearchInFiles
 {
@@ -15,7 +16,8 @@ namespace SearchInFiles
 	{
 		public static string SearchText;
 		private string fileText;
-		private string rootDirectoryForSearching;
+		public static string RootDirectoryForSearching;
+		private bool PauseActivationPasting = true;
 
 		public Form1()
 		{
@@ -57,12 +59,34 @@ namespace SearchInFiles
 
 		private void Form1_Shown(object sender, EventArgs e)
 		{
-			if (Environment.GetCommandLineArgs().Length > 1)
+			//if (Environment.GetCommandLineArgs().Length > 1)
+			//{
+			//    RootDirectoryForSearching = Environment.GetCommandLineArgs()[1];
+			textBoxSearchText.Text = SearchText;
+			PerformSearch();
+			lastClipboard = Clipboard.GetText();
+			//}
+		}
+
+		private void UpdateProgess(int progressPercentage)
+		{
+			Action updateAction = new Action(delegate
 			{
-				rootDirectoryForSearching = Environment.GetCommandLineArgs()[1];
-				textBoxSearchText.Text = SearchText;
-				PerformSearch();
-			}
+				if (progressBar1.Value != progressPercentage)
+				{
+					progressBar1.Value = progressPercentage;
+					Application.DoEvents();
+				}
+			});
+			if (this.InvokeRequired)
+				this.Invoke(updateAction);
+			else
+				updateAction();
+		}
+
+		private void UpdateProgressOfLoop(int loopVal, int loopMax)
+		{
+			UpdateProgess((int)Math.Truncate((double)100 * (double)loopVal++ / (double)loopMax));
 		}
 
 		private void PerformSearch()
@@ -72,20 +96,29 @@ namespace SearchInFiles
 			buttonSearchAgain.Enabled = false;
 
 			treeViewFoundInFiles.Nodes.Clear();
-			labelRootFolder.Text = rootDirectoryForSearching;
+			labelRootFolder.Text = RootDirectoryForSearching;
 			labelStatusbar.Text = string.Format(
 				"Searching for \"{0}\" files in folder: {1}",
 				textBoxSearchText.Text,
-				rootDirectoryForSearching);
+				RootDirectoryForSearching);
+			progressBar1.Value = 0;
+			progressBar1.Visible = true;
 
 			ThreadingInterop.PerformVoidFunctionSeperateThread(() =>
 			{
 				try
 				{
-					foreach (string file in Directory.GetFiles(rootDirectoryForSearching, "*", SearchOption.AllDirectories))
+					var files = Directory.GetFiles(RootDirectoryForSearching, "*", SearchOption.AllDirectories);
+					int fileCount = files.Length;
+					int totalDone = 0;
+					foreach (string file in files)
 					{
 						if (file.IndexOf(".svn", StringComparison.InvariantCultureIgnoreCase) != -1)
+						{
+							UpdateProgressOfLoop(totalDone++, fileCount);
 							continue;
+						}
+
 						//Not skipping, it always returns UTF8 for all files (text, bitmaps, etc)
 						//using (var r = new StreamReader(file, false))//true))
 						//{
@@ -105,7 +138,7 @@ namespace SearchInFiles
 						if (file.IndexOf(SearchText, StringComparison.InvariantCultureIgnoreCase) != -1)
 							this.Invoke((Action)delegate
 							{
-								treeViewFoundInFiles.Nodes.Add(file);
+								AddNodeResultPath(file);
 							});
 						else
 						{
@@ -114,30 +147,55 @@ namespace SearchInFiles
 							{
 								this.Invoke((Action)delegate
 								{
-									treeViewFoundInFiles.Nodes.Add(file);
+									AddNodeResultPath(file);
 								});
 							}
 						}
+						UpdateProgressOfLoop(totalDone++, fileCount);
 					}
 				}
 				catch (Exception exc)
 				{
 					UserMessages.ShowErrorMessage("Exception occurred: " + exc.Message);
 				}
-			});
+				finally
+				{
+					Action afterSearchAction = new Action(delegate
+					{
+						labelRootFolder.Enabled = true;
+						textBoxSearchText.Enabled = true;
+						buttonSearchAgain.Enabled = true;
+						progressBar1.Value = 0;
+						progressBar1.Visible = false;
+					});
+					ThreadingInterop.UpdateGuiFromThread(this, afterSearchAction);
+				}
+			},
+			false);
+		}
 
-			labelRootFolder.Enabled = true;
-			textBoxSearchText.Enabled = true;
-			buttonSearchAgain.Enabled = true;
+		private void AddNodeResultPath(string path)
+		{
+			var displaytext = path;
+			if (displaytext.StartsWith(labelRootFolder.Text, StringComparison.InvariantCultureIgnoreCase))
+				displaytext = ".." + displaytext.Substring(labelRootFolder.Text.Length);
+			TreeNode tn = new TreeNode(displaytext);
+			tn.Name = path;
+			tn.ToolTipText = path;
+			tn.Tag = path;
+			treeViewFoundInFiles.Nodes.Add(tn);
 		}
 
 		private void labelRootFolder_Click(object sender, EventArgs e)
 		{
 			FolderBrowserDialog fbd = new FolderBrowserDialog();
-			fbd.SelectedPath = rootDirectoryForSearching;
+			fbd.SelectedPath = RootDirectoryForSearching;
 			fbd.Description = "Choose new root folder for searching...";
 			if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-				rootDirectoryForSearching = fbd.SelectedPath;
+			{
+				RootDirectoryForSearching = fbd.SelectedPath;
+				labelRootFolder.Text = RootDirectoryForSearching;
+			}
 		}
 
 		private void textBoxSearchText_TextChanged(object sender, EventArgs e)
@@ -149,6 +207,42 @@ namespace SearchInFiles
 		private void buttonSearchAgain_Click(object sender, EventArgs e)
 		{
 			PerformSearch();
+		}
+
+		private string lastClipboard = null;
+		private void Form1_Activated(object sender, EventArgs e)
+		{
+			if (!PauseActivationPasting)
+			{
+				var clipboardText = Clipboard.GetText();
+				if (clipboardText != lastClipboard && !string.IsNullOrEmpty(clipboardText))
+				{
+					textBoxSearchText.Text = clipboardText;
+					textBoxSearchText.Focus();
+					labelStatusbar.Text = "Pasted text into search box: " + clipboardText;
+				}
+				lastClipboard = clipboardText;
+			}
+		}
+
+		private void Form1_Deactivate(object sender, EventArgs e)
+		{
+			PauseActivationPasting = false;
+		}
+
+		private void textBoxSearchText_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (13 == (int)e.KeyChar)
+				PerformSearch();
+		}
+
+		private void treeViewFoundInFiles_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+		{
+			string filepath = e.Node.Tag == null ? "" : e.Node.Tag.ToString();
+			if (File.Exists(filepath))
+				Process.Start("explorer", "/select,\"" + filepath + "\"");
+			else
+				UserMessages.ShowWarningMessage("Cannot find file: " + filepath);
 		}
 	}
 }

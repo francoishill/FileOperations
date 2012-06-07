@@ -47,10 +47,9 @@
 			// labelStatusbar
 			// 
 			this.labelStatusbar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelStatusbar.AutoSize = true;
-			this.labelStatusbar.Location = new System.Drawing.Point(12, 224);
+			this.labelStatusbar.Location = new System.Drawing.Point(12, 418);
 			this.labelStatusbar.Name = "labelStatusbar";
-			this.labelStatusbar.Size = new System.Drawing.Size(35, 13);
+			this.labelStatusbar.Size = new System.Drawing.Size(374, 37);
 			this.labelStatusbar.TabIndex = 0;
 			this.labelStatusbar.Text = "label1";
 			// 
@@ -58,9 +57,9 @@
 			// 
 			this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.progressBar1.Location = new System.Drawing.Point(12, 240);
+			this.progressBar1.Location = new System.Drawing.Point(12, 458);
 			this.progressBar1.Name = "progressBar1";
-			this.progressBar1.Size = new System.Drawing.Size(751, 10);
+			this.progressBar1.Size = new System.Drawing.Size(475, 10);
 			this.progressBar1.TabIndex = 1;
 			// 
 			// treeViewFoundInFiles
@@ -72,8 +71,9 @@
 			this.treeViewFoundInFiles.ShowLines = false;
 			this.treeViewFoundInFiles.ShowPlusMinus = false;
 			this.treeViewFoundInFiles.ShowRootLines = false;
-			this.treeViewFoundInFiles.Size = new System.Drawing.Size(758, 138);
+			this.treeViewFoundInFiles.Size = new System.Drawing.Size(482, 356);
 			this.treeViewFoundInFiles.TabIndex = 2;
+			this.treeViewFoundInFiles.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewFoundInFiles_NodeMouseDoubleClick);
 			// 
 			// treeViewSkippedNonTextfiles
 			// 
@@ -85,7 +85,7 @@
 			this.treeViewSkippedNonTextfiles.ShowLines = false;
 			this.treeViewSkippedNonTextfiles.ShowPlusMinus = false;
 			this.treeViewSkippedNonTextfiles.ShowRootLines = false;
-			this.treeViewSkippedNonTextfiles.Size = new System.Drawing.Size(343, 160);
+			this.treeViewSkippedNonTextfiles.Size = new System.Drawing.Size(86, 75);
 			this.treeViewSkippedNonTextfiles.TabIndex = 3;
 			// 
 			// splitContainer1
@@ -107,7 +107,7 @@
 			this.splitContainer1.Panel2.Controls.Add(this.treeViewSkippedNonTextfiles);
 			this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(5, 20, 5, 5);
 			this.splitContainer1.Panel2Collapsed = true;
-			this.splitContainer1.Size = new System.Drawing.Size(758, 138);
+			this.splitContainer1.Size = new System.Drawing.Size(482, 356);
 			this.splitContainer1.SplitterDistance = 401;
 			this.splitContainer1.TabIndex = 4;
 			// 
@@ -134,16 +134,17 @@
 			// 
 			this.textBoxSearchText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBoxSearchText.Location = new System.Drawing.Point(12, 26);
+			this.textBoxSearchText.Location = new System.Drawing.Point(12, 28);
 			this.textBoxSearchText.Name = "textBoxSearchText";
-			this.textBoxSearchText.Size = new System.Drawing.Size(139, 20);
+			this.textBoxSearchText.Size = new System.Drawing.Size(323, 20);
 			this.textBoxSearchText.TabIndex = 6;
 			this.textBoxSearchText.TextChanged += new System.EventHandler(this.textBoxSearchText_TextChanged);
+			this.textBoxSearchText.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxSearchText_KeyPress);
 			// 
 			// buttonSearchAgain
 			// 
 			this.buttonSearchAgain.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonSearchAgain.Location = new System.Drawing.Point(167, 24);
+			this.buttonSearchAgain.Location = new System.Drawing.Point(395, 25);
 			this.buttonSearchAgain.Name = "buttonSearchAgain";
 			this.buttonSearchAgain.Size = new System.Drawing.Size(99, 23);
 			this.buttonSearchAgain.TabIndex = 7;
@@ -155,7 +156,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(775, 262);
+			this.ClientSize = new System.Drawing.Size(499, 480);
 			this.Controls.Add(this.buttonSearchAgain);
 			this.Controls.Add(this.textBoxSearchText);
 			this.Controls.Add(this.labelRootFolder);
@@ -166,6 +167,8 @@
 			this.Name = "Form1";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Searching in files";
+			this.Activated += new System.EventHandler(this.Form1_Activated);
+			this.Deactivate += new System.EventHandler(this.Form1_Deactivate);
 			this.Shown += new System.EventHandler(this.Form1_Shown);
 			this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
 			this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
