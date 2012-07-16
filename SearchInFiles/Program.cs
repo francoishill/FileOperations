@@ -22,7 +22,7 @@ namespace SearchInFiles
             Application.SetCompatibleTextRenderingDefault(false);
             
 			var args = Environment.GetCommandLineArgs();
-			//var args = new string[] { "", @"C:\Users\francois\Dropbox\Temp\WaterSkills\Source" };
+			//args = new string[] { "", @"C:\Users\francois\Dropbox\Dev\VSprojects\SharedClasses" };//@"C:\Users\francois\Dropbox\Temp\WaterSkills\Source" };
 
             if (Application.ExecutablePath.StartsWith(@"C:\Program Files", StringComparison.InvariantCultureIgnoreCase))
                 SharedClasses.RegistryInterop.AddCommandToFolder(

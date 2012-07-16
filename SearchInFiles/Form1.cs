@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using SharedClasses;
 
 namespace SearchInFiles
 {
@@ -18,10 +19,15 @@ namespace SearchInFiles
 		private string fileText;
 		public static string RootDirectoryForSearching;
 		private bool PauseActivationPasting = true;
+		
+		private string SearchButtonText_BeforeSearching;//= "&Search again";
+		private const string SearchButtonText_WhileSearching = "C&ancel search";
 
 		public Form1()
 		{
 			InitializeComponent();
+			SearchButtonText_BeforeSearching = buttonSearchAgain.Text;
+
 			labelStatusbar.Text = "";
 		}
 
@@ -89,11 +95,16 @@ namespace SearchInFiles
 			UpdateProgess((int)Math.Truncate((double)100 * (double)loopVal++ / (double)loopMax));
 		}
 
+		private bool CancelSearch = false;
 		private void PerformSearch()
 		{
+			CancelSearch = false;
+
 			labelRootFolder.Enabled = false;
 			textBoxSearchText.Enabled = false;
-			buttonSearchAgain.Enabled = false;
+			//buttonSearchAgain.Enabled = false;
+			buttonSearchAgain.Text = SearchButtonText_WhileSearching;
+			Application.DoEvents();
 
 			treeViewFoundInFiles.Nodes.Clear();
 			labelRootFolder.Text = RootDirectoryForSearching;
@@ -113,6 +124,12 @@ namespace SearchInFiles
 					int totalDone = 0;
 					foreach (string file in files)
 					{
+						if (CancelSearch)
+							break;
+
+						if (OnlineSettings.SearchInFilesSettings.Instance.ExcludeFileTypes.Contains(Path.GetExtension(file), StringComparer.InvariantCultureIgnoreCase))
+							continue;
+
 						if (file.IndexOf(".svn", StringComparison.InvariantCultureIgnoreCase) != -1)
 						{
 							UpdateProgressOfLoop(totalDone++, fileCount);
@@ -164,7 +181,9 @@ namespace SearchInFiles
 					{
 						labelRootFolder.Enabled = true;
 						textBoxSearchText.Enabled = true;
-						buttonSearchAgain.Enabled = true;
+						//buttonSearchAgain.Enabled = true;
+						buttonSearchAgain.Text = SearchButtonText_BeforeSearching;
+						Application.DoEvents();
 						progressBar1.Value = 0;
 						progressBar1.Visible = false;
 					});
@@ -206,7 +225,10 @@ namespace SearchInFiles
 
 		private void buttonSearchAgain_Click(object sender, EventArgs e)
 		{
-			PerformSearch();
+			if (buttonSearchAgain.Text == SearchButtonText_BeforeSearching)
+				PerformSearch();
+			else
+				CancelSearch = true;
 		}
 
 		private string lastClipboard = null;
@@ -243,6 +265,38 @@ namespace SearchInFiles
 				Process.Start("explorer", "/select,\"" + filepath + "\"");
 			else
 				UserMessages.ShowWarningMessage("Cannot find file: " + filepath);
+		}
+
+		private void treeViewFoundInFiles_AfterSelect(object sender, TreeViewEventArgs e)
+		{
+			if (e.Node == null || e.Node.Tag == null)
+			{
+				richTextBoxFileContents.Enabled = false;
+				buttonNextInFile.Enabled = false;
+				return;
+			}
+
+			richTextBoxFileContents.Enabled = true;
+			buttonNextInFile.Enabled = true;
+
+			string filepath = e.Node.Tag.ToString();
+			if (!File.Exists(filepath))
+				UserMessages.ShowWarningMessage("Cannot find file: " + filepath);
+			else
+			{
+				//richTextBoxFileContents.Text = File.ReadAllText(filepath);
+				richTextBoxFileContents.LoadFile(filepath, RichTextBoxStreamType.PlainText);
+				richTextBoxFileContents.Find(textBoxSearchText.Text, 0);
+			}
+		}
+
+		private void buttonNextInFile_Click(object sender, EventArgs e)
+		{
+			int start = 0;
+			if (richTextBoxFileContents.SelectionStart >= 0)
+				start = richTextBoxFileContents.SelectionStart + (richTextBoxFileContents.SelectionLength >= 0 ? richTextBoxFileContents.SelectionLength : 0);
+			if (richTextBoxFileContents.Find(textBoxSearchText.Text, start, RichTextBoxFinds.None) == -1)
+				richTextBoxFileContents.Find(textBoxSearchText.Text, 0, RichTextBoxFinds.None);			
 		}
 	}
 }
