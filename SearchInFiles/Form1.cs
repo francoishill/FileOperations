@@ -107,6 +107,7 @@ namespace SearchInFiles
 			Application.DoEvents();
 
 			treeViewFoundInFiles.Nodes.Clear();
+			treeViewFoundInFiles.Tag = null;
 			labelRootFolder.Text = RootDirectoryForSearching;
 			labelStatusbar.Text = string.Format(
 				"Searching for \"{0}\" files in folder: {1}",
@@ -115,6 +116,7 @@ namespace SearchInFiles
 			progressBar1.Value = 0;
 			progressBar1.Visible = true;
 
+			treeViewFoundInFiles.Tag = SearchText;
 			ThreadingInterop.PerformVoidFunctionSeperateThread(() =>
 			{
 				try
@@ -122,15 +124,15 @@ namespace SearchInFiles
 					var files = Directory.GetFiles(RootDirectoryForSearching, "*", SearchOption.AllDirectories);
 					int fileCount = files.Length;
 					int totalDone = 0;
-					foreach (string file in files)
+					foreach (string filepath in files)
 					{
 						if (CancelSearch)
 							break;
 
-						if (OnlineSettings.SearchInFilesSettings.Instance.ExcludeFileTypes.Contains(Path.GetExtension(file), StringComparer.InvariantCultureIgnoreCase))
+						if (OnlineSettings.SearchInFilesSettings.Instance.ExcludeFileTypes.Contains(Path.GetExtension(filepath), StringComparer.InvariantCultureIgnoreCase))
 							continue;
 
-						if (file.IndexOf(".svn", StringComparison.InvariantCultureIgnoreCase) != -1)
+						if (filepath.IndexOf(".svn", StringComparison.InvariantCultureIgnoreCase) != -1)
 						{
 							UpdateProgressOfLoop(totalDone++, fileCount);
 							continue;
@@ -152,20 +154,27 @@ namespace SearchInFiles
 						//    }
 						//}
 
-						if (file.IndexOf(SearchText, StringComparison.InvariantCultureIgnoreCase) != -1)
+						if (filepath.IndexOf(SearchText, StringComparison.InvariantCultureIgnoreCase) != -1)
 							this.Invoke((Action)delegate
 							{
-								AddNodeResultPath(file);
+								AddNodeResultPath(filepath);
 							});
 						else
 						{
-							fileText = File.ReadAllText(file);
-							if (fileText.IndexOf(SearchText, StringComparison.InvariantCultureIgnoreCase) != -1)
+							try
 							{
-								this.Invoke((Action)delegate
+								fileText = File.ReadAllText(filepath);
+								if (fileText.IndexOf(SearchText, StringComparison.InvariantCultureIgnoreCase) != -1)
 								{
-									AddNodeResultPath(file);
-								});
+									this.Invoke((Action)delegate
+									{
+										AddNodeResultPath(filepath);
+									});
+								}
+							}
+							catch (Exception fileReadException)
+							{
+								UserMessages.ShowWarningMessage(string.Format("Error reading file: '{0}':{1}{2}", filepath, Environment.NewLine, fileReadException.Message));
 							}
 						}
 						UpdateProgressOfLoop(totalDone++, fileCount);
@@ -240,6 +249,7 @@ namespace SearchInFiles
 				if (clipboardText != lastClipboard && !string.IsNullOrEmpty(clipboardText))
 				{
 					textBoxSearchText.Text = clipboardText;
+					SearchText = clipboardText;
 					textBoxSearchText.Focus();
 					labelStatusbar.Text = "Pasted text into search box: " + clipboardText;
 				}
@@ -292,11 +302,19 @@ namespace SearchInFiles
 
 		private void buttonNextInFile_Click(object sender, EventArgs e)
 		{
+			if (treeViewFoundInFiles.Tag == null)
+			{
+				labelStatusbar.Text = "Last search text is NULL";
+				return;
+			}
+
+			string searchText = treeViewFoundInFiles.Tag.ToString();
+
 			int start = 0;
 			if (richTextBoxFileContents.SelectionStart >= 0)
 				start = richTextBoxFileContents.SelectionStart + (richTextBoxFileContents.SelectionLength >= 0 ? richTextBoxFileContents.SelectionLength : 0);
-			if (richTextBoxFileContents.Find(textBoxSearchText.Text, start, RichTextBoxFinds.None) == -1)
-				richTextBoxFileContents.Find(textBoxSearchText.Text, 0, RichTextBoxFinds.None);			
+			if (richTextBoxFileContents.Find(searchText, start, RichTextBoxFinds.None) == -1)
+				richTextBoxFileContents.Find(searchText, 0, RichTextBoxFinds.None);			
 		}
 	}
 }

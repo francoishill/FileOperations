@@ -43,7 +43,12 @@ namespace SearchInFiles
 				{
 					Form1.SearchText = searchText;
 					Form1.RootDirectoryForSearching = args[1];
-					Application.Run(new Form1());
+					Form1 mainform = new Form1();
+					SharedClasses.AutoUpdatingForm.CheckForUpdates(
+					exitApplicationAction: delegate { Application.Exit(); },
+					ActionIfUptoDate_Versionstring: (versionstring) => { mainform.Text += " (up to date version " + versionstring + ")"; }
+					);
+					Application.Run(mainform);
 				}
 			}
         }
