@@ -1,0 +1,14 @@
+{
+	"FileExtensionsInClassesRoot" : [ "Folder", "Directory", "Directory\\Background" ],
+	"MainmenuItemRegistryName" : "Search in files",
+	"MainmenuItemIconpath" : "((EXEPATH))",
+	"SubCommands" : [
+		{
+			"CommandName" : "_SearchInFiles.SearchInFiles",
+			"DisplayName" : "Search in files",
+			"CommandIconpath" : "((EXEPATH))",
+			"CommandlineExcludingArgumentString" : "((EXEPATH))",
+			"ArgumentCount" : 1
+		}
+	]
+}

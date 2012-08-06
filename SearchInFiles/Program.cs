@@ -24,18 +24,18 @@ namespace SearchInFiles
 			var args = Environment.GetCommandLineArgs();
 			//args = new string[] { "", @"C:\Users\francois\Dropbox\Dev\VSprojects\SharedClasses" };//@"C:\Users\francois\Dropbox\Temp\WaterSkills\Source" };
 
-			if (Application.ExecutablePath.StartsWith(@"C:\Program Files", StringComparison.InvariantCultureIgnoreCase))
+			/*if (Application.ExecutablePath.StartsWith(@"C:\Program Files", StringComparison.InvariantCultureIgnoreCase))
 			{
 
 				string iconPath = "\"" + Environment.GetCommandLineArgs()[0] + "\"";//"shell32.dll,-320",;
 				bool added = RegistryInterop.AddSubMenuCommands(new RegistryInterop.MainContextMenuItem(
-					new List<string>() { "Folder" },
+					new List<string>() { "Folder", "Directory", "Directory\\Background" },
 					"Search in files",
 					//"Hex converting",
 					iconPath,
 					new List<RegistryInterop.SubContextMenuItem>()
 				{
-					new RegistryInterop.SubContextMenuItem("_SearchInFiles.SearchInFiles", "Search in files", iconPath, "\"" + Environment.GetCommandLineArgs()[0] + "\" \"%1\"")
+					new RegistryInterop.SubContextMenuItem("_SearchInFiles.SearchInFiles", "Search in files", iconPath, "\"" + Environment.GetCommandLineArgs()[0] + "\" \"%V\"")
 				}));
 
 				if (!added)
@@ -43,12 +43,12 @@ namespace SearchInFiles
 
 				//SharedClasses.RegistryInterop.AddCommandToFolder(
 				//    "SearchInFiles",
-				//    "\"" + Environment.GetCommandLineArgs()[0] + "\" \"%1\"",
+				//    "\"" + Environment.GetCommandLineArgs()[0] + "\" \"%V\"",
 				//    "Search in files",
 				//    "\"" + Environment.GetCommandLineArgs()[0] + "\"",//"shell32.dll,-320",
 				//    null,//"SearchInFiles",
 				//    ThisAppKeyName);
-			}
+			}*/
 
 			if (args.Length <= 1)
 				UserMessages.ShowWarningMessage("This program (" + ThisAppKeyName + ") needs a commandline argument which should be the root directory to search in");
@@ -63,9 +63,9 @@ namespace SearchInFiles
 					Form1.RootDirectoryForSearching = args[1];
 					Form1 mainform = new Form1();
 					SharedClasses.AutoUpdatingForm.CheckForUpdates(
-					exitApplicationAction: delegate { Application.Exit(); },
-					ActionIfUptoDate_Versionstring: (versionstring) => { mainform.Text += " (up to date version " + versionstring + ")"; }
-					);
+						exitApplicationAction: () => Application.Exit(),
+						ActionIfUptoDate_Versionstring: versionstring => ThreadingInterop.UpdateGuiFromThread(mainform, () => mainform.Text += " (up to date version " + versionstring + ")"),
+						ActionIfUnableToCheckForUpdates: errmsg => ThreadingInterop.UpdateGuiFromThread(mainform, () => mainform.Text += " (" + errmsg + ")"));
 					Application.Run(mainform);
 				}
 			}
