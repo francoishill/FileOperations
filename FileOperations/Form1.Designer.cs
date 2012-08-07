@@ -1,4 +1,4 @@
-﻿namespace SearchInFiles
+﻿namespace FileOperations
 {
     partial class Form1
     {

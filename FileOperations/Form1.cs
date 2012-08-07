@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using SharedClasses;
 
-namespace SearchInFiles
+namespace FileOperations
 {
 	public partial class Form1 : Form
 	{
@@ -129,7 +129,7 @@ namespace SearchInFiles
 						if (CancelSearch)
 							break;
 
-						if (OnlineSettings.SearchInFilesSettings.Instance.ExcludeFileTypes.Contains(Path.GetExtension(filepath), StringComparer.InvariantCultureIgnoreCase))
+						if (OnlineSettings.FileOperationsSettings.Instance.ExcludeFileTypes.Contains(Path.GetExtension(filepath), StringComparer.InvariantCultureIgnoreCase))
 							continue;
 
 						if (filepath.IndexOf(".svn", StringComparison.InvariantCultureIgnoreCase) != -1)

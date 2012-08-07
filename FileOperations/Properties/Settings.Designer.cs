@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SearchInFiles.Properties
+namespace FileOperations.Properties
 {
 
 

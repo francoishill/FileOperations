@@ -4,7 +4,7 @@
 	"MainmenuItemIconpath" : "((EXEPATH))",
 	"SubCommands" : [
 		{
-			"CommandName" : "_SearchInFiles.SearchInFiles",
+			"CommandName" : "_FileOperations.FileOperations",
 			"DisplayName" : "Search in files",
 			"CommandIconpath" : "((EXEPATH))",
 			"CommandlineExcludingArgumentString" : "((EXEPATH))",
