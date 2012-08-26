@@ -129,7 +129,7 @@ namespace FileOperations
 						if (CancelSearch)
 							break;
 
-						if (OnlineSettings.FileOperationsSettings.Instance.ExcludeFileTypes.Contains(Path.GetExtension(filepath), StringComparer.InvariantCultureIgnoreCase))
+						if (OnlineSettings.SearchInFilesSettings.Instance.ExcludeFileTypes.Contains(Path.GetExtension(filepath), StringComparer.InvariantCultureIgnoreCase))
 							continue;
 
 						if (filepath.IndexOf(".svn", StringComparison.InvariantCultureIgnoreCase) != -1)

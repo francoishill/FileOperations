@@ -1,13 +1,88 @@
 {
-	"FileExtensionsInClassesRoot" : [ "Folder", "Directory", "Directory\\Background" ],
-	"MainmenuItemRegistryName" : "Search in files",
+	"MainmenuItemRegistryName" : "File operations",
 	"MainmenuItemIconpath" : "((EXEPATH))",
 	"SubCommands" : [
 		{
-			"CommandName" : "_FileOperations.FileOperations",
-			"DisplayName" : "Search in files",
+			"FileExtensionsInClassesRoot" : [ "Folder", "Directory", "Directory\\Background" ],
+			"CommandName" : "_FileOperations.SearchTextInFiles",
+			"DisplayName" : "Search text in files",
 			"CommandIconpath" : "((EXEPATH))",
 			"CommandlineExcludingArgumentString" : "((EXEPATH))",
+			"CommandlinePassedConstantArgument" : "searchtextinfiles",
+			"ArgumentCount" : 1
+		},
+
+		{
+			"FileExtensionsInClassesRoot" : [ "Folder", "Directory", "Directory\\Background" ],
+			"CommandName" : "|"
+		},
+		{
+			"FileExtensionsInClassesRoot" : [ "Folder", "Directory", "Directory\\Background" ],
+			"CommandName" : "_FileOperations.GetFilesMetadata",
+			"DisplayName" : "Get files metadata",
+			"CommandIconpath" : "((EXEPATH))",
+			"CommandlineExcludingArgumentString" : "((EXEPATH))",
+			"CommandlinePassedConstantArgument" : "getmetadata",
+			"ArgumentCount" : 1
+		},
+		{
+			"FileExtensionsInClassesRoot" : [ "Folder", "Directory", "Directory\\Background" ],
+			"CommandName" : "_FileOperations.CompareToCachedMetadata",
+			"DisplayName" : "Compare to cached metadata",
+			"CommandIconpath" : "((EXEPATH))",
+			"CommandlineExcludingArgumentString" : "((EXEPATH))",
+			"CommandlinePassedConstantArgument" : "comparetocachedmetadata",
+			"ArgumentCount" : 1
+		},
+
+		{
+			"FileExtensionsInClassesRoot" : [ "Folder", "Directory", "Directory\\Background" ],
+			"CommandName" : "|"
+		},
+		{
+			"FileExtensionsInClassesRoot" : [ "Folder", "Directory", "Directory\\Background" ],
+			"CommandName" : "_FileOperations.CreateDonwloadlinkTextfile",
+			"DisplayName" : "Create 'Download link.txt'",
+			"CommandIconpath" : "((EXEPATH))",
+			"CommandlineExcludingArgumentString" : "((EXEPATH))",
+			"CommandlinePassedConstantArgument" : "createdowloadlinktextfile",
+			"ArgumentCount" : 1
+		},
+
+		{
+			"FileExtensionsInClassesRoot" : [ "*" ],
+			"CommandName" : "|"
+		},
+		{
+			"FileExtensionsInClassesRoot" : [ "*" ],
+			"CommandName" : "_FileOperations.ConvertFileToHex",
+			"DisplayName" : "Convert file to HEX",
+			"CommandIconpath" : "((EXEPATH))",
+			"CommandlineExcludingArgumentString" : "((EXEPATH))",
+			"CommandlinePassedConstantArgument" : "tohex",
+			"ArgumentCount" : 1
+		},
+		{
+			"FileExtensionsInClassesRoot" : [ "*" ],
+			"CommandName" : "_FileOperations.ConvertFileFromHex",
+			"DisplayName" : "Convert file from HEX",
+			"CommandIconpath" : "((EXEPATH))",
+			"CommandlineExcludingArgumentString" : "((EXEPATH))",
+			"CommandlinePassedConstantArgument" : "fromhex",
+			"ArgumentCount" : 1
+		},
+
+		{
+			"FileExtensionsInClassesRoot" : [ ".jpg", ".jpeg" ],
+			"CommandName" : "|"
+		},
+		{
+			"FileExtensionsInClassesRoot" : [ ".jpg", ".jpeg" ],
+			"CommandName" : "_FileOperations.ResizeImage",
+			"DisplayName" : "Resize Image",
+			"CommandIconpath" : "((EXEPATH))",
+			"CommandlineExcludingArgumentString" : "((EXEPATH))",
+			"CommandlinePassedConstantArgument" : "resizeimage",
 			"ArgumentCount" : 1
 		}
 	]
