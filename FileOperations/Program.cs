@@ -31,8 +31,11 @@ namespace FileOperations
 				//ActionIfUnableToCheckForUpdates: errmsg => ThreadingInterop.UpdateGuiFromThread(mainform, () => mainform.Text += " (" + errmsg + ")"));
 									);
 
+			//PreviewHandlers.RegisterThisDllPreviewHandlers();
+
 			var args = Environment.GetCommandLineArgs();
 			//args = new string[] { "", @"C:\Users\francois\Dropbox\Dev\VSprojects\SharedClasses" };//@"C:\Users\francois\Dropbox\Temp\WaterSkills\Source" };
+			//args = new string[] { "", "highlighttohtml", @"C:\Francois\Dev\VSprojects\SharedClasses\EncodeAndDecodeInterop.cs" };
 
 			/*if (Application.ExecutablePath.StartsWith(@"C:\Program Files", StringComparison.InvariantCultureIgnoreCase))
 			{
@@ -76,6 +79,10 @@ namespace FileOperations
 					string comparetocachedmetadata = "comparetocachedmetadata";
 					string createdowloadlinktextfile = "createdowloadlinktextfile";
 					string resizeimage = "resizeimage";
+					string rotatepdf90degrees = "rotatepdf90degrees";
+					string rotatepdf180degrees = "rotatepdf180degrees";
+					string rotatepdf270degrees = "rotatepdf270degrees";
+					string highlighttohtml = "highlighttohtml";
 
 					typeof(Form).GetField("defaultIcon", BindingFlags.NonPublic | BindingFlags.Static)
 							.SetValue(null, new Icon(System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("FileOperations.app.ico")));
@@ -207,7 +214,7 @@ namespace FileOperations
 							//{
 							//int maxsidelength;
 							//if (int.TryParse(args[3], out maxsidelength))
-							
+
 							//Point? pickedMaxSideLength = PickItemForm.PickItem<Point?>(
 							//    new List<Point?>()
 							//    {
@@ -231,13 +238,91 @@ namespace FileOperations
 								null);
 
 							if (pickedMaxSideLength.HasValue)
-							ImagesInterop.ResizeImage(
-								origFile,
-								Path.ChangeExtension(origFile, ".new" + Path.GetExtension(origFile)),
-								pickedMaxSideLength.Value);
+								ImagesInterop.ResizeImage(
+									origFile,
+									Path.ChangeExtension(origFile, ".new" + Path.GetExtension(origFile)),
+									pickedMaxSideLength.Value);
 							//else
 							//    UserMessages.ShowWarningMessage("Cannot resize image, invalid size specified = " + args[3]);
 							//}
+						}
+					}
+					else if (args[1].Equals(rotatepdf90degrees, StringComparison.InvariantCultureIgnoreCase))
+					{
+						if (!File.Exists(args[2]))
+							UserMessages.ShowWarningMessage("Cannot find file (passed as command-line argument with 'rotatepdf90degrees'): " + args[2]);
+						else
+						{
+							string origfile = args[2];
+							string rotatedfilepath = Path.ChangeExtension(origfile, ".rotate90.pdf");
+							List<string> allfeedbackCatched;
+							if (!PdfToolkitInterop.PerformRotation(origfile, rotatedfilepath, PdfToolkitInterop.RotationTypes._90clockwise, out allfeedbackCatched))
+								UserMessages.ShowErrorMessage("Could not perform rotation: "
+									+ Environment.NewLine + string.Join(Environment.NewLine, allfeedbackCatched));
+						}
+					}
+					else if (args[1].Equals(rotatepdf180degrees, StringComparison.InvariantCultureIgnoreCase))
+					{
+						if (!File.Exists(args[2]))
+							UserMessages.ShowWarningMessage("Cannot find file (passed as command-line argument with 'rotatepdf180degrees'): " + args[2]);
+						else
+						{
+							string origfile = args[2];
+							string rotatedfilepath = Path.ChangeExtension(origfile, ".rotate180.pdf");
+							List<string> allfeedbackCatched;
+							if (!PdfToolkitInterop.PerformRotation(origfile, rotatedfilepath, PdfToolkitInterop.RotationTypes._180clockwise, out allfeedbackCatched))
+								UserMessages.ShowErrorMessage("Could not perform rotation: "
+									+ Environment.NewLine + string.Join(Environment.NewLine, allfeedbackCatched));
+						}
+					}
+					else if (args[1].Equals(rotatepdf270degrees, StringComparison.InvariantCultureIgnoreCase))
+					{
+						if (!File.Exists(args[2]))
+							UserMessages.ShowWarningMessage("Cannot find file (passed as command-line argument with 'rotatepdf270degrees'): " + args[2]);
+						else
+						{
+							string origfile = args[2];
+							string rotatedfilepath = Path.ChangeExtension(origfile, ".rotate270.pdf");
+							List<string> allfeedbackCatched;
+							if (!PdfToolkitInterop.PerformRotation(origfile, rotatedfilepath, PdfToolkitInterop.RotationTypes._270clockwise, out allfeedbackCatched))
+								UserMessages.ShowErrorMessage("Could not perform rotation: "
+									+ Environment.NewLine + string.Join(Environment.NewLine, allfeedbackCatched));
+						}
+					}
+					else if (args[1].Equals(highlighttohtml, StringComparison.InvariantCultureIgnoreCase))
+					{
+						if (!File.Exists(args[2]))
+							UserMessages.ShowWarningMessage("Cannot find file (passed as command-line argument with 'highlighttohtml'): " + args[2]);
+						else
+						{
+							string origfile = args[2];
+							string htmlfile_highlighted = Path.ChangeExtension(origfile, ".highlighted.html");
+							string extension = Path.GetExtension(origfile);
+
+							string origFileContents = File.ReadAllText(origfile);
+
+							string htmlContents = null;
+							if (extension.Equals(".cs", StringComparison.InvariantCultureIgnoreCase))
+								htmlContents = HighlightToHtml.FromCSharpCode(origFileContents);
+							else if (extension.Equals(".html", StringComparison.InvariantCultureIgnoreCase))
+								htmlContents = HighlightToHtml.FromHTMLcode(origFileContents);
+							else if (extension.Equals(".java", StringComparison.InvariantCultureIgnoreCase))
+								htmlContents = HighlightToHtml.FromJava(origFileContents);
+							else if (extension.Equals(".js", StringComparison.InvariantCultureIgnoreCase))
+								htmlContents = HighlightToHtml.FromJavaStript(origFileContents);
+							else if (extension.Equals(".pas", StringComparison.InvariantCultureIgnoreCase))
+								htmlContents = HighlightToHtml.FromPascal(origFileContents);
+							else if (extension.Equals(".php", StringComparison.InvariantCultureIgnoreCase))
+								htmlContents = HighlightToHtml.FromPhp(origFileContents);
+							else if (extension.Equals(".sql", StringComparison.InvariantCultureIgnoreCase))
+								htmlContents = HighlightToHtml.FromSQL(origFileContents);
+							else if (extension.Equals(".xml", StringComparison.InvariantCultureIgnoreCase))
+								htmlContents = HighlightToHtml.FromXML(origFileContents);
+
+							if (htmlContents != null)
+								File.WriteAllText(htmlfile_highlighted, htmlContents);
+							else
+								UserMessages.ShowWarningMessage("Unable to HTML for file: " + origfile);
 						}
 					}
 				}

@@ -84,6 +84,50 @@
 			"CommandlineExcludingArgumentString" : "((EXEPATH))",
 			"CommandlinePassedConstantArgument" : "resizeimage",
 			"ArgumentCount" : 1
+		},
+		{
+			"FileExtensionsInClassesRoot" : [ ".pdf" ],
+			"CommandName" : "|"
+		},
+		{
+			"FileExtensionsInClassesRoot" : [ ".pdf" ],
+			"CommandName" : "_FileOperations.RotatePdf90degrees",
+			"DisplayName" : "Rotate PDF 90 degrees",
+			"CommandIconpath" : "((EXEPATH))",
+			"CommandlineExcludingArgumentString" : "((EXEPATH))",
+			"CommandlinePassedConstantArgument" : "rotatepdf90degrees",
+			"ArgumentCount" : 1
+		},
+		{
+			"FileExtensionsInClassesRoot" : [ ".pdf" ],
+			"CommandName" : "_FileOperations.RotatePdf180degrees",
+			"DisplayName" : "Rotate PDF 180 degrees",
+			"CommandIconpath" : "((EXEPATH))",
+			"CommandlineExcludingArgumentString" : "((EXEPATH))",
+			"CommandlinePassedConstantArgument" : "rotatepdf180degrees",
+			"ArgumentCount" : 1
+		},
+		{
+			"FileExtensionsInClassesRoot" : [ ".pdf" ],
+			"CommandName" : "_FileOperations.RotatePdf270degrees",
+			"DisplayName" : "Rotate PDF 270 degrees",
+			"CommandIconpath" : "((EXEPATH))",
+			"CommandlineExcludingArgumentString" : "((EXEPATH))",
+			"CommandlinePassedConstantArgument" : "rotatepdf270degrees",
+			"ArgumentCount" : 1
+		},
+		{
+			"FileExtensionsInClassesRoot" : [ ".cs", ".html", ".java", ".js", ".pas", ".php", ".sql", ".xml" ],
+			"CommandName" : "|"
+		},
+		{
+			"FileExtensionsInClassesRoot" : [ ".cs", ".html", ".java", ".js", ".pas", ".php", ".sql", ".xml" ],
+			"CommandName" : "_FileOperations.HighlightToHtml",
+			"DisplayName" : "Highlight to HTML",
+			"CommandIconpath" : "((EXEPATH))",
+			"CommandlineExcludingArgumentString" : "((EXEPATH))",
+			"CommandlinePassedConstantArgument" : "highlighttohtml",
+			"ArgumentCount" : 1
 		}
 	]
 }

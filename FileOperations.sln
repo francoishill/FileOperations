@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual C# Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileOperations", "FileOperations\FileOperations.csproj", "{DE9C9E08-1C98-4ECE-9B82-45FA06385579}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilePreviewHandlers", "FilePreviewHandlers\FilePreviewHandlers.csproj", "{EBC004B1-2B3B-48D0-8B09-1B0E6AB01A4E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,12 @@ Global
 		{DE9C9E08-1C98-4ECE-9B82-45FA06385579}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DE9C9E08-1C98-4ECE-9B82-45FA06385579}.Release|x86.ActiveCfg = Release|x86
 		{DE9C9E08-1C98-4ECE-9B82-45FA06385579}.Release|x86.Build.0 = Release|x86
+		{EBC004B1-2B3B-48D0-8B09-1B0E6AB01A4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBC004B1-2B3B-48D0-8B09-1B0E6AB01A4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBC004B1-2B3B-48D0-8B09-1B0E6AB01A4E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EBC004B1-2B3B-48D0-8B09-1B0E6AB01A4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBC004B1-2B3B-48D0-8B09-1B0E6AB01A4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBC004B1-2B3B-48D0-8B09-1B0E6AB01A4E}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
