@@ -67,6 +67,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -84,14 +85,6 @@
   <ItemGroup>
     <Compile Include="..\..\SharedClasses\AutoUpdating.cs">
       <Link>AutoUpdating.cs</Link>
-    </Compile>
-    <Compile Include="..\..\SharedClasses\AutoUpdatingForm.cs">
-      <Link>AutoUpdatingForm.cs</Link>
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="..\..\SharedClasses\AutoUpdatingForm.designer.cs">
-      <Link>AutoUpdatingForm.designer.cs</Link>
-      <DependentUpon>AutoUpdatingForm.cs</DependentUpon>
     </Compile>
     <Compile Include="..\..\SharedClasses\CompareObjects.cs">
       <Link>CompareObjects.cs</Link>
@@ -212,10 +205,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="..\..\SharedClasses\AutoUpdatingForm.resx">
-      <Link>AutoUpdatingForm.resx</Link>
-      <DependentUpon>AutoUpdatingForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="..\..\SharedClasses\InputBox.resx">
       <Link>InputBox.resx</Link>
       <DependentUpon>InputBox.cs</DependentUpon>
