@@ -92,7 +92,12 @@ namespace FileOperations
 						if (!Directory.Exists(args[2]))
 							UserMessages.ShowWarningMessage("Cannot find file (passed as command-line argument with 'searchtextinfiles'): " + args[2]);
 						{
-							string searchText = DialogBoxStuff.InputDialog("Please enter the text to search for in all files (recursively) in folder:" + Environment.NewLine + args[1]);
+							string searchText = DialogBoxStuff.InputDialog(
+								"Please enter the text to search for in all files (recursively) in folder:"
+								+ Environment.NewLine
+								+Environment.NewLine
+								+ args[2],
+								"Search text in files");
 							if (!string.IsNullOrWhiteSpace(searchText))
 							{
 								Form1.SearchText = searchText;
