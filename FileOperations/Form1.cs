@@ -10,6 +10,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using SharedClasses;
+using Microsoft.WindowsAPICodePack.Taskbar;
 
 namespace FileOperations
 {
@@ -74,12 +75,22 @@ namespace FileOperations
 			//}
 		}
 
+		private bool hideTaskbarProgressOnNextActivation = false;
+		private void ShowProgress(bool resetValueToZero = true)
+		{
+			hideTaskbarProgressOnNextActivation = false;
+			TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
+			progressBar1.Value = 0;
+			progressBar1.Visible = true;
+		}
+
 		private void UpdateProgess(int progressPercentage)
 		{
 			Action updateAction = new Action(delegate
 			{
 				if (progressBar1.Value != progressPercentage)
 				{
+					TaskbarManager.Instance.SetProgressValue(progressPercentage, 100);
 					progressBar1.Value = progressPercentage;
 					Application.DoEvents();
 				}
@@ -88,6 +99,19 @@ namespace FileOperations
 				this.Invoke(updateAction);
 			else
 				updateAction();
+		}
+
+		private void HideProgress(bool resetValueToZero = true)
+		{
+			if (Win32Api.GetForegroundWindow() == this.Handle)
+			{
+				TaskbarManager.Instance.SetProgressValue(0, 100);
+				TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
+			}
+			else
+				hideTaskbarProgressOnNextActivation = true;
+			progressBar1.Value = 0;
+			progressBar1.Visible = false;
 		}
 
 		private void UpdateProgressOfLoop(int loopVal, int loopMax)
@@ -113,8 +137,7 @@ namespace FileOperations
 				"Searching for \"{0}\" files in folder: {1}",
 				textBoxSearchText.Text,
 				RootDirectoryForSearching);
-			progressBar1.Value = 0;
-			progressBar1.Visible = true;
+			ShowProgress(true);
 
 			treeViewFoundInFiles.Tag = SearchText;
 			ThreadingInterop.PerformVoidFunctionSeperateThread(() =>
@@ -193,8 +216,7 @@ namespace FileOperations
 						//buttonSearchAgain.Enabled = true;
 						buttonSearchAgain.Text = SearchButtonText_BeforeSearching;
 						Application.DoEvents();
-						progressBar1.Value = 0;
-						progressBar1.Visible = false;
+						HideProgress(true);
 					});
 					ThreadingInterop.UpdateGuiFromThread(this, afterSearchAction);
 				}
@@ -243,6 +265,11 @@ namespace FileOperations
 		private string lastClipboard = null;
 		private void Form1_Activated(object sender, EventArgs e)
 		{
+			if (hideTaskbarProgressOnNextActivation)
+			{
+				hideTaskbarProgressOnNextActivation = false;
+				HideProgress(true);
+			}
 			if (!PauseActivationPasting)
 			{
 				var clipboardText = Clipboard.GetText();

@@ -61,9 +61,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\..\..\..\Users\FrancoisLaptopDell\Dropbox\Dev\DLLs\HighlightToHtml_Wayloop\Definitions.xml">
+    <Resource Include="..\..\..\..\..\Users\FrancoisLaptopDell\Dropbox\Dev\DLLs\HighlightToHtml_Wayloop\Definitions.xml">
       <Link>Definitions.xml</Link>
-    </Content>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
