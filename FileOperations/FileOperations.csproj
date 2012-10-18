@@ -275,9 +275,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\..\..\..\Users\FrancoisLaptopDell\Dropbox\Dev\DLLs\HighlightToHtml_Wayloop\Definitions.xml">
+    <Content Include="c:\Francois\Dev\DLLs\HighlightToHtml_Wayloop\Definitions.xml">
       <Link>Definitions.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
