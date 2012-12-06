@@ -120,9 +120,13 @@ namespace FileOperations
 		}
 
 		private bool CancelSearch = false;
+		private bool isBusySearching = false;
 		private void PerformSearch()
 		{
 			CancelSearch = false;
+			if (isBusySearching)
+				return;
+			isBusySearching = true;
 
 			labelRootFolder.Enabled = false;
 			textBoxSearchText.Enabled = false;
@@ -219,6 +223,7 @@ namespace FileOperations
 						HideProgress(true);
 					});
 					ThreadingInterop.UpdateGuiFromThread(this, afterSearchAction);
+					isBusySearching = false;
 				}
 			},
 			false);
@@ -272,15 +277,18 @@ namespace FileOperations
 			}
 			if (!PauseActivationPasting)
 			{
-				var clipboardText = Clipboard.GetText();
-				if (clipboardText != lastClipboard && !string.IsNullOrEmpty(clipboardText))
+				if (!isBusySearching)
 				{
-					textBoxSearchText.Text = clipboardText;
-					SearchText = clipboardText;
-					textBoxSearchText.Focus();
-					labelStatusbar.Text = "Pasted text into search box: " + clipboardText;
+					var clipboardText = Clipboard.GetText();
+					if (clipboardText != lastClipboard && !string.IsNullOrEmpty(clipboardText))
+					{
+						textBoxSearchText.Text = clipboardText;
+						SearchText = clipboardText;
+						textBoxSearchText.Focus();
+						labelStatusbar.Text = "Pasted text into search box: " + clipboardText;
+					}
+					lastClipboard = clipboardText;
 				}
-				lastClipboard = clipboardText;
 			}
 		}
 
