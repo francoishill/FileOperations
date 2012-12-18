@@ -23,13 +23,18 @@ namespace FileOperations
 			Application.SetCompatibleTextRenderingDefault(false);
 
 			Form1 mainform = new Form1();
-			AutoUpdating.CheckForUpdates(
+			AutoUpdating.CheckForUpdates_ExceptionHandler(
+				delegate
+				{
+					ThreadingInterop.UpdateGuiFromThread(mainform, () => mainform.Text += " (up to date version " + AutoUpdating.GetThisAppVersionString() + ")");
+				});
+			/*AutoUpdating.CheckForUpdates(
 				//SharedClasses.AutoUpdatingForm.CheckForUpdates(
 				//exitApplicationAction: () => Application.Exit(),
 									ActionIfUptoDate_Versionstring: versionstring => ThreadingInterop.UpdateGuiFromThread(mainform, () => mainform.Text += " (up to date version " + versionstring + ")")
 				//,
 				//ActionIfUnableToCheckForUpdates: errmsg => ThreadingInterop.UpdateGuiFromThread(mainform, () => mainform.Text += " (" + errmsg + ")"));
-									);
+									);*/
 
 			//PreviewHandlers.RegisterThisDllPreviewHandlers();
 
