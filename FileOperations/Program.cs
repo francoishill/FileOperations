@@ -22,7 +22,7 @@ namespace FileOperations
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			Form1 mainform = new Form1();
+			MainForm mainform = new MainForm();
 			AutoUpdating.CheckForUpdates_ExceptionHandler(
 				delegate
 				{
@@ -105,9 +105,12 @@ namespace FileOperations
 								"Search text in files");
 							if (!string.IsNullOrWhiteSpace(searchText))
 							{
-								Form1.SearchText = searchText;
-								Form1.RootDirectoryForSearching = args[2];
-								Application.Run(mainform);
+								string rootDirForSearching = args[2];
+								SearchWindow sw = new SearchWindow(searchText, rootDirForSearching);
+								sw.ShowDialog();
+								//MainForm.SearchText = searchText;
+								//MainForm.RootDirectoryForSearching = args[2];
+								//Application.Run(mainform);
 							}
 						}
 					}

@@ -14,7 +14,7 @@ using Microsoft.WindowsAPICodePack.Taskbar;
 
 namespace FileOperations
 {
-	public partial class Form1 : Form
+	public partial class MainForm : Form
 	{
 		public static string SearchText;
 		private string fileText;
@@ -24,7 +24,7 @@ namespace FileOperations
 		private string SearchButtonText_BeforeSearching;//= "&Search again";
 		private const string SearchButtonText_WhileSearching = "C&ancel search";
 
-		public Form1()
+		public MainForm()
 		{
 			InitializeComponent();
 			SearchButtonText_BeforeSearching = buttonSearchAgain.Text;
@@ -71,7 +71,7 @@ namespace FileOperations
 			//    RootDirectoryForSearching = Environment.GetCommandLineArgs()[1];
 			textBoxSearchText.Text = SearchText;
 			PerformSearch();
-			lastClipboard = Clipboard.GetText();
+			//lastClipboard = Clipboard.GetText(); WHY was this here?
 			//}
 		}
 
@@ -350,6 +350,20 @@ namespace FileOperations
 				start = richTextBoxFileContents.SelectionStart + (richTextBoxFileContents.SelectionLength >= 0 ? richTextBoxFileContents.SelectionLength : 0);
 			if (richTextBoxFileContents.Find(searchText, start, RichTextBoxFinds.None) == -1)
 				richTextBoxFileContents.Find(searchText, 0, RichTextBoxFinds.None);			
+		}
+
+		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			this.Close();
+		}
+
+		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			AboutWindow2.ShowAboutWindow(new System.Collections.ObjectModel.ObservableCollection<DisplayItem>()
+			{
+				new DisplayItem("Author", "Francois Hill"),
+				new DisplayItem("Icon(s) obtained from", null)
+			});
 		}
 	}
 }

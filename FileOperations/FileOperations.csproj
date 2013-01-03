@@ -84,8 +84,13 @@
       <HintPath>..\..\..\DLLs\HighlightToHtml_Wayloop\Wayloop.Highlight.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\SharedClasses\AboutWindow2.xaml.cs">
+      <Link>AboutWindow2.xaml.cs</Link>
+      <DependentUpon>AboutWindow2.xaml</DependentUpon>
+    </Compile>
     <Compile Include="..\..\SharedClasses\AppTypeIndependant.cs">
       <Link>AppTypeIndependant.cs</Link>
     </Compile>
@@ -97,6 +102,9 @@
     </Compile>
     <Compile Include="..\..\SharedClasses\CompareObjects.cs">
       <Link>CompareObjects.cs</Link>
+    </Compile>
+    <Compile Include="..\..\SharedClasses\ConvertersGeneral.cs">
+      <Link>ConvertersGeneral.cs</Link>
     </Compile>
     <Compile Include="..\..\SharedClasses\DeveloperCommunication.cs">
       <Link>DeveloperCommunication.cs</Link>
@@ -181,6 +189,10 @@
     <Compile Include="..\..\SharedClasses\RegistryInterop.cs">
       <Link>RegistryInterop.cs</Link>
     </Compile>
+    <Compile Include="..\..\SharedClasses\SearchWindow.xaml.cs">
+      <Link>SearchWindow.xaml.cs</Link>
+      <DependentUpon>SearchWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="..\..\SharedClasses\SerializationInterop.cs">
       <Link>SerializationInterop.cs</Link>
     </Compile>
@@ -223,15 +235,18 @@
     <Compile Include="..\..\SharedClasses\Win32Api.cs">
       <Link>Win32Api.cs</Link>
     </Compile>
+    <Compile Include="..\..\SharedClasses\WPFHelper.cs">
+      <Link>WPFHelper.cs</Link>
+    </Compile>
     <Compile Include="..\..\SharedClasses\WpfNotificationWindow.xaml.cs">
       <Link>WpfNotificationWindow.xaml.cs</Link>
       <DependentUpon>WpfNotificationWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Form1.cs">
+    <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -255,8 +270,8 @@
       <Link>UserMessages.resx</Link>
       <DependentUpon>UserMessages.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -284,6 +299,16 @@
     <EmbeddedResource Include="app.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="..\..\SharedClasses\AboutWindow2.xaml">
+      <Link>AboutWindow2.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\SharedClasses\SearchWindow.xaml">
+      <Link>SearchWindow.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="..\..\SharedClasses\UnhandledExceptionsWindow.xaml">
       <Link>UnhandledExceptionsWindow.xaml</Link>
       <Generator>MSBuild:Compile</Generator>

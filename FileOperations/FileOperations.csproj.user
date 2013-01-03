@@ -13,6 +13,6 @@
     <StartArguments>"rotatepdf90degrees" "C:\Users\francois\Dropbox\Other\Handy downloads\Applications\Windows\PdfToHtml commandline\PdfTk (Pdf toolkit)\Nasou Combined Price List 2012-2013.pdf"</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <StartArguments>"rotatepdf90degrees" "C:\Users\francois\Dropbox\Other\Handy downloads\Applications\Windows\PdfToHtml commandline\PdfTk (Pdf toolkit)\Nasou Combined Price List 2012-2013.pdf"</StartArguments>
+    <StartArguments>searchtextinfiles "C:\Francois\Dev\VSprojects\SharedClasses"</StartArguments>
   </PropertyGroup>
 </Project>
