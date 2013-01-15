@@ -94,15 +94,20 @@ namespace FileOperations
 
 					if (args[1].Equals(searchtextinfiles, StringComparison.InvariantCultureIgnoreCase))
 					{
+						args[2] = args[2].Trim(' ', '"', '\'', '\\');
 						if (!Directory.Exists(args[2]))
-							UserMessages.ShowWarningMessage("Cannot find file (passed as command-line argument with 'searchtextinfiles'): " + args[2]);
+							UserMessages.ShowWarningMessage("Cannot find Directory (passed as command-line argument with 'searchtextinfiles'): \"" + args[2] + "\"");
+						else
 						{
-							string searchText = DialogBoxStuff.InputDialog(
-								"Please enter the text to search for in all files (recursively) in folder:"
-								+ Environment.NewLine
-								+Environment.NewLine
-								+ args[2],
-								"Search text in files");
+							string searchText =
+								args.Length >= 4
+								? args[3]
+								: DialogBoxStuff.InputDialog(
+									"Please enter the text to search for in all files (recursively) in folder:"
+									+ Environment.NewLine
+									+ Environment.NewLine
+									+ args[2],
+									"Search text in files");
 							if (!string.IsNullOrWhiteSpace(searchText))
 							{
 								string rootDirForSearching = args[2];

@@ -144,6 +144,9 @@
       <Link>InputBox.designer.cs</Link>
       <DependentUpon>InputBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="..\..\SharedClasses\Logging.cs">
+      <Link>Logging.cs</Link>
+    </Compile>
     <Compile Include="..\..\SharedClasses\MiniDownloadBarForm.cs">
       <Link>MiniDownloadBarForm.cs</Link>
       <SubType>Form</SubType>
