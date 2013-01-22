@@ -128,6 +128,16 @@
 			"CommandlineExcludingArgumentString" : "((EXEPATH))",
 			"CommandlinePassedConstantArgument" : "highlighttohtml",
 			"ArgumentCount" : 1
+		},
+
+		{
+			"FileExtensionsInClassesRoot" : [ "Folder", "Directory", "Directory\\Background" ],
+			"CommandName" : "_FileOperations.DumpClipboardImage",
+			"DisplayName" : "Dump clipboard image",
+			"CommandIconpath" : "((EXEPATH))",
+			"CommandlineExcludingArgumentString" : "((EXEPATH))",
+			"CommandlinePassedConstantArgument" : "dumpclipboardimage",
+			"ArgumentCount" : 1
 		}
 	]
 }

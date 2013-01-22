@@ -88,6 +88,7 @@ namespace FileOperations
 					string rotatepdf180degrees = "rotatepdf180degrees";
 					string rotatepdf270degrees = "rotatepdf270degrees";
 					string highlighttohtml = "highlighttohtml";
+					string dumpclipboardimage = "dumpclipboardimage";
 
 					typeof(Form).GetField("defaultIcon", BindingFlags.NonPublic | BindingFlags.Static)
 							.SetValue(null, new Icon(System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("FileOperations.app.ico")));
@@ -341,6 +342,21 @@ namespace FileOperations
 								File.WriteAllText(htmlfile_highlighted, htmlContents);
 							else
 								UserMessages.ShowWarningMessage("Unable to HTML for file: " + origfile);
+						}
+					}
+					else if (args[1].Equals(dumpclipboardimage, StringComparison.InvariantCultureIgnoreCase))
+					{
+						string dir = args[2].Trim(' ', '"', '\'', '\\');
+						if (!Directory.Exists(dir))
+							UserMessages.ShowWarningMessage("Cannot find Directory (passed as command-line argument with 'dumpclipboardimage'): \"" + dir + "\"");
+						else
+						{
+							string timeStr = DateTime.Now.ToString(@"yyyy-MM-dd HH_mm_ss");
+							string imagePathToSave = Path.Combine(dir, "Clipboard image " + timeStr + ".jpg");
+							if (!Clipboard.ContainsImage())
+								UserMessages.ShowWarningMessage("No image currently in clipboard");
+							else
+								Clipboard.GetImage().Save(imagePathToSave, System.Drawing.Imaging.ImageFormat.Png);
 						}
 					}
 				}
