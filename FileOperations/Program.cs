@@ -68,6 +68,8 @@ namespace FileOperations
 				//    ThisAppKeyName);
 			}*/
 
+			//args = new string[] { "", "comparewithanotherfolder", "c:" };
+
 			if (args.Length <= 1)
 				UserMessages.ShowWarningMessage("This program (" + ThisAppKeyName + ") needs commandline argument(s) to run.");
 			else
@@ -82,6 +84,7 @@ namespace FileOperations
 					string fromHex = "fromhex";
 					string getmetadata = "getmetadata";
 					string comparetocachedmetadata = "comparetocachedmetadata";
+					string comparewithanotherfolder = "comparewithanotherfolder";
 					string createdowloadlinktextfile = "createdowloadlinktextfile";
 					string resizeimage = "resizeimage";
 					string rotatepdf90degrees = "rotatepdf90degrees";
@@ -201,6 +204,16 @@ namespace FileOperations
 							}
 							else if (UserMessages.Confirm("Cannot find cached json file, generate this metadata-file now?: " + jsonfile))
 								new FolderDetails(dir, null).SaveDetails(GetmetaFilenameFromDirpath(dir));
+						}
+					}
+					else if (args[1].Equals(comparewithanotherfolder, StringComparison.InvariantCultureIgnoreCase))
+					{
+						if (!Directory.Exists(args[2]))
+							UserMessages.ShowWarningMessage("Cannot find directory (passed as command-line argument with 'comparetocachedmetadata'): " + args[2]);
+						else
+						{
+							string dir = args[2];
+							new MergeTwoFolderDetailsForm(dir, null).ShowDialog();
 						}
 					}
 					else if (args[1].Equals(createdowloadlinktextfile, StringComparison.InvariantCultureIgnoreCase))

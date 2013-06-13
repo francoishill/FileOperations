@@ -34,6 +34,19 @@
 			"CommandlinePassedConstantArgument" : "comparetocachedmetadata",
 			"ArgumentCount" : 1
 		},
+		{
+			"FileExtensionsInClassesRoot" : [ "Folder", "Directory", "Directory\\Background" ],
+			"CommandName" : "|"
+		},
+		{
+			"FileExtensionsInClassesRoot" : [ "Folder", "Directory", "Directory\\Background" ],
+			"CommandName" : "_FileOperations.CompareWithAnotherFolder",
+			"DisplayName" : "Compare with another folder",
+			"CommandIconpath" : "((EXEPATH))",
+			"CommandlineExcludingArgumentString" : "((EXEPATH))",
+			"CommandlinePassedConstantArgument" : "comparewithanotherfolder",
+			"ArgumentCount" : 1
+		},
 
 		{
 			"FileExtensionsInClassesRoot" : [ "Folder", "Directory", "Directory\\Background" ],
