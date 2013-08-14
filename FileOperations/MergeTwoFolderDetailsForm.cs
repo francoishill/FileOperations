@@ -100,7 +100,8 @@ namespace FileOperations
 		bool isBusy = false;
 		private void buttonCompareNow_Click(object sender, EventArgs e)
 		{
-			Todo: Remember to build an HTML output mode for comparison results too
+			int todo;
+			//Todo: Remember to build an HTML output mode for comparison results too
 
 			string baseDir, otherDir;
 			if (!HaveWeGotAllTheInfoWeNeed(out baseDir, out otherDir))
